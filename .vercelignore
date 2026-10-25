@@ -1,0 +1,10 @@
+.openai/
+.vercel/
+.git/
+node_modules/
+.env
+.env.*
+comarka-esparta/
+LEEME.md
+README.md
+DEPLOYMENT.md

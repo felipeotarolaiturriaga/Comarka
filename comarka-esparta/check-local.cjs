@@ -1,0 +1,30 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+const elements = new Map();
+function element(key) {
+  if (!elements.has(key)) elements.set(key, {textContent:'', hidden:false, attrs:{}, classList:{toggle(){},remove(){}},addEventListener(){},querySelectorAll(){return []},setAttribute(k,v){this.attrs[k]=v},getAttribute(k){return this.attrs[k]},removeAttribute(k){delete this.attrs[k]},focus(){}});
+  return elements.get(key);
+}
+const context = vm.createContext({document:{querySelector:element,getElementById:id=>element('#'+id),querySelectorAll:()=>[],addEventListener(){}},window:{setInterval:()=>1,clearInterval(){}},Date});
+vm.runInContext(source, context);
+const target = Date.parse('2027-03-26T00:00:00-03:00');
+const calculate = now => JSON.parse(vm.runInContext(`JSON.stringify(getRemainingTime(${target},${now}))`,context));
+assert.deepEqual(calculate(target-((86400+2*3600+3*60+4)*1000)),{days:1,hours:2,minutes:3,seconds:4,complete:false});
+assert.deepEqual(calculate(target),{days:0,hours:0,minutes:0,seconds:0,complete:true});
+assert.deepEqual(calculate(target+3600000),{days:0,hours:0,minutes:0,seconds:0,complete:true});
+assert.match(element('#seconds').textContent,/^\d{2}$/);
+assert.match(html,/<span>Comarka <b>2026<\/b>/);
+assert.ok(!/<form\b/i.test(html));
+assert.ok(!/https?:\/\//.test(html+css));
+for (const [,asset] of html.matchAll(/(?:src|href)="([^"#]+)"/g)) assert.ok(fs.existsSync(path.join(root,asset)),`Missing asset: ${asset}`);
+for (const [,anchor] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(html.includes(`id="${anchor}"`),`Missing anchor: ${anchor}`);
+for (const [,asset] of css.matchAll(/url\('([^']+)'\)/g)) assert.ok(fs.existsSync(path.join(root,asset)),`Missing CSS asset: ${asset}`);
+assert.match(css,/@media\(max-width:600px\)/);
+assert.match(css,/prefers-reduced-motion/);
+console.log('OK: countdown, expiration, navigation targets, local assets, responsive rules, and no external dependencies.');
