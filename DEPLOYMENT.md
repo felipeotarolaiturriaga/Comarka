@@ -1,10 +1,11 @@
 # Despliegue de Comarka
 
-## Configuración prevista
+## Configuración
 
 - Repositorio: https://github.com/felipeotarolaiturriaga/Comarka
 - Proyecto existente de Vercel: `comarka`, equipo `kala-kira`.
-- Rama de producción prevista: `main`.
+- Rama de producción: `main`.
+- Dominio asociado: https://comarka.vercel.app (verificado en Vercel).
 - Directorio raíz: raíz del repositorio.
 - Framework: Other (`null`).
 - Build Command: vacío; HTML, CSS y JavaScript estáticos, sin compilación.
@@ -29,11 +30,17 @@ en Vercel; este archivo no crea ni acredita esa conexión.
 No se necesitan tokens de Vercel ni un segundo proceso de despliegue en
 GitHub Actions si está activa la integración nativa de Vercel con GitHub.
 
-## Verificación pendiente
+## Validación de la configuración
 
-GitHub registra un estado Vercel exitoso para el commit inicial de la web
-`16653444fdf1c53cd16ddaca6effc75f16f2416f`.
-Falta autorizar el acceso de esta conexión al equipo `kala-kira` para inspeccionar
-la configuración efectiva, el dominio y los despliegues posteriores.
-Los cambios de configuración deben permanecer en la rama de prueba hasta
-verificar el Preview. No se ha confirmado todavía el circuito completo.
+La integración Git enlaza este repositorio con el proyecto `comarka` del equipo
+`kala-kira`. El despliegue inicial de `main` está identificado como producción.
+El dominio `comarka.vercel.app` figura verificado y asociado a producción.
+
+El Preview del commit `675672e35fcd4e768dc62fd694e3c3954b6a3ec6` se creó
+automáticamente desde la rama de prueba y terminó en estado READY.
+La página, los estilos, el JavaScript, el emblema SVG y la imagen principal
+respondieron HTTP 200. Los registros de compilación confirmaron la raíz del
+repositorio, la aplicación de `.vercelignore` y la publicación correcta.
+
+Antes de integrar cualquier cambio posterior se debe validar el Preview de su
+commit exacto; después, comprobar el despliegue automático de `main` y su dominio.
