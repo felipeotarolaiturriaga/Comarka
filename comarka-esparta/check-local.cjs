@@ -13,7 +13,12 @@ function element(key) {
 }
 const context = vm.createContext({document:{querySelector:element,getElementById:id=>element('#'+id),querySelectorAll:()=>[],addEventListener(){}},window:{setInterval:()=>1,clearInterval(){}},Date});
 vm.runInContext(source, context);
-const target = Date.parse('2027-03-26T00:00:00-03:00');
+const eventDate = vm.runInContext('CONFIG.eventDate', context);
+assert.equal(eventDate, '2027-01-22T14:00:00-03:00');
+assert.ok(html.includes(`datetime="${eventDate}"`), 'Event label and countdown must use the same date');
+const target = Date.parse(eventDate);
+assert.equal(new Date(target).toISOString(), '2027-01-22T17:00:00.000Z');
+assert.equal(new Intl.DateTimeFormat('en-GB', {timeZone:'America/Santiago',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(target), '14:00');
 const calculate = now => JSON.parse(vm.runInContext(`JSON.stringify(getRemainingTime(${target},${now}))`,context));
 assert.deepEqual(calculate(target-((86400+2*3600+3*60+4)*1000)),{days:1,hours:2,minutes:3,seconds:4,complete:false});
 assert.deepEqual(calculate(target),{days:0,hours:0,minutes:0,seconds:0,complete:true});
