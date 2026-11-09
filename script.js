@@ -5,7 +5,7 @@ const CONFIG = {
   // Fecha y hora del evento con zona horaria explícita en formato ISO 8601.
   // Ejemplo de formato: '2026-12-31T23:59:00-03:00'.
   // Dejar vacío muestra «Fecha por confirmar» y no inventa una fecha.
-  eventDate: '2027-03-26T00:00:00-03:00',
+  eventDate: '2027-01-22T14:00:00-03:00',
   eventLabel: 'NOS ENCONTRAMOS EN',
   completedLabel: '¡El momento ha llegado!',
   contactEmail: '', // Reemplaza por tu dirección real para activar el correo.

@@ -11,7 +11,7 @@ Abre `index.html` en un navegador. No requiere instalación, frameworks, servici
 
 ## Personalización
 
-La cuenta regresiva está configurada para el **26 de marzo de 2027 a las 00:00, hora de Chile continental (UTC−03:00)**. El título se mantiene como **Comarka 2026**, según lo solicitado.
+La cuenta regresiva está configurada para el **22 de enero de 2027 a las 14:00, hora de Chile continental (UTC−03:00)**. El título se mantiene como **Comarka 2026**, según lo solicitado.
 
 Edita el objeto `CONFIG` al inicio de `script.js`:
 
